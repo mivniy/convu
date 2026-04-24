@@ -22,7 +22,7 @@ app.post("/ai", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo",
+        model: "meta-llama/llama-3-8b-instruct:free",
         messages: [
           { role: "user", content: message }
         ]
