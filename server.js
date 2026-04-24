@@ -28,8 +28,16 @@ app.post("/ai", async (req, res) => {
     const data = await response.json();
 console.log("OPENAI RESPONSE:", data);
 
+// 🔥 ВАЖНО — проверка
+if (!data.choices) {
+  return res.status(500).json({
+    error: "OpenAI error",
+    details: data
+  });
+}
+
 res.json({
-  reply: data.choices?.[0]?.message?.content || "Нет ответа"
+  reply: data.choices[0].message.content
 });
 
   } catch (e) {
