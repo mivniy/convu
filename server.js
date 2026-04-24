@@ -17,7 +17,7 @@ app.post("/ai", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "Ты ассистент в мессенджере, отвечаешь коротко и по делу" },
           { role: "user", content: message }
