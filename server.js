@@ -3,53 +3,51 @@ import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀");
+});
 
 app.post("/ai", async (req, res) => {
   try {
     const { message } = req.body;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "mistralai/mistral-7b-instruct",
         messages: [
-          { role: "system", content: "Ты ассистент в мессенджере, отвечаешь коротко и по делу" },
           { role: "user", content: message }
         ]
       })
     });
 
     const data = await response.json();
-console.log("OPENAI RESPONSE:", data);
+    console.log("OPENROUTER:", data);
 
-// 🔥 ВАЖНО — проверка
-if (!data.choices) {
-  return res.status(500).json({
-    error: "OpenAI error",
-    details: data
-  });
-}
+    if (!data.choices) {
+      return res.status(500).json({
+        error: "AI error",
+        details: data
+      });
+    }
 
-res.json({
-  reply: data.choices[0].message.content
-});
+    res.json({
+      reply: data.choices[0].message.content
+    });
 
   } catch (e) {
     console.error(e);
-    res.status(500).json({ error: "AI error" });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
-
-app.listen(3000, () => {
-  console.log("Server started");
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server started"));
