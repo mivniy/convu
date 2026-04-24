@@ -26,10 +26,11 @@ app.post("/ai", async (req, res) => {
     });
 
     const data = await response.json();
+console.log("OPENAI RESPONSE:", data);
 
-    res.json({
-      reply: data.choices[0].message.content
-    });
+res.json({
+  reply: data.choices?.[0]?.message?.content || "Нет ответа"
+});
 
   } catch (e) {
     console.error(e);
