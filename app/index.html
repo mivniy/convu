@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convu</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%232B7FD8'/><stop offset='1' stop-color='%233390EC'/></linearGradient></defs><path d='M32 6c14 0 26 9.4 26 22 0 12.6-12 22-26 22-3 0-6-.4-8.7-1.2L10 54l3.4-9.4C8.8 40.7 6 34.7 6 28 6 15.4 18 6 32 6z' fill='url(%23g)'/><text x='50%25' y='56%25' font-size='28' font-family='Montserrat, sans-serif' font-weight='700' fill='white' text-anchor='middle' dominant-baseline='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="me">
+        <img id="meAvatar" class="avatar" alt="avatar" />
+        <span id="meNick" class="nick">Гость</span>
+      </div>
+      <h1 class="logo">
+        <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2B7FD8"/>
+              <stop offset="1" stop-color="#3390EC"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 6c14 0 26 9.4 26 22 0 12.6-12 22-26 22-3 0-6-.4-8.7-1.2L10 54l3.4-9.4C8.8 40.7 6 34.7 6 28 6 15.4 18 6 32 6z" fill="url(#logoGrad)"/>
+          <text x="50%" y="56%" font-size="28" font-family="Montserrat, sans-serif" font-weight="700" fill="white" text-anchor="middle" dominant-baseline="middle">C</text>
+        </svg>
+        <span class="logo-text">Convu</span>
+      </h1>
+    </header>
+
+    <main class="content">
+      <!-- Контакты -->
+      <section id="tab-contacts" class="tab active">
+        <div class="section-head">
+          <h2>Контакты</h2>
+          <button id="addContactBtn" class="btn primary">+ Добавить</button>
+        </div>
+        <div class="search-row">
+          <input id="contactsSearch" class="search-input" type="text" placeholder="🔍 Поиск контактов..." autocomplete="off" />
+        </div>
+        <ul id="contactsList" class="list"></ul>
+      </section>
+
+      <!-- Чаты -->
+      <section id="tab-chats" class="tab">
+        <div class="section-head">
+          <h2>Чаты</h2>
+          <button id="toggleHiddenBtn" class="btn secondary">📦 Архив</button>
+        </div>
+        <div id="storiesRail" class="stories-rail">
+          <div class="story-cell">
+            <button id="addStoryBtn" class="story-circle add" title="Опубликовать историю">＋</button>
+            <span class="story-label">Моя</span>
+          </div>
+          <div id="storiesItems" class="stories-items"></div>
+        </div>
+        <div class="search-row">
+          <input id="chatsSearch" class="search-input" type="text" placeholder="🔍 Поиск по чатам и сообщениям..." autocomplete="off" />
+        </div>
+        <ul id="chatsList" class="list"></ul>
+        <div id="chatsEmpty" class="welcome">
+          <svg class="welcome-logo" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="welcomeGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2B7FD8"/>
+                <stop offset="1" stop-color="#4FC3F7"/>
+              </linearGradient>
+            </defs>
+            <path d="M32 6c14 0 26 9.4 26 22 0 12.6-12 22-26 22-3 0-6-.4-8.7-1.2L10 54l3.4-9.4C8.8 40.7 6 34.7 6 28 6 15.4 18 6 32 6z" fill="url(#welcomeGrad)"/>
+            <text x="50%" y="56%" font-size="28" font-family="Montserrat, sans-serif" font-weight="700" fill="white" text-anchor="middle" dominant-baseline="middle">C</text>
+          </svg>
+          <h3 class="welcome-title">Добро пожаловать в Convu</h3>
+          <p class="welcome-tagline">Лёгкие разговоры, которые остаются с вами.</p>
+          <p class="welcome-hint">Перейдите во вкладку «Контакты» и начните первый диалог.</p>
+        </div>
+      </section>
+
+      <!-- Настройки -->
+      <section id="tab-settings" class="tab">
+        <div class="section-head">
+          <h2>Настройки</h2>
+        </div>
+        <div class="settings">
+          <div id="settingsMainView" class="settings-view">
+            <div class="settings-menu">
+              <div class="settings-item" id="myProfileBtn">
+                👤 Мой профиль
+              </div>
+              <div class="settings-item" id="myStoriesBtn">
+                📖 Мои истории
+              </div>
+              <div class="settings-item" id="favBtn">
+                ⭐ Избранные сообщения
+              </div>
+              <div class="settings-item" id="themeBtn">
+                🎨 Оформление
+              </div>
+              <div class="settings-item" id="langBtn">
+                🌐 Язык
+              </div>
+              <div class="settings-item" id="helpBtn">
+                ❓ Помощь
+              </div>
+            </div>
+            <label class="toggle-row">
+              <span>Имитация автоответа</span>
+              <input id="autoReplyToggle" type="checkbox" />
+            </label>
+            <label class="toggle-row">
+              <span>Звук уведомлений</span>
+              <input id="soundToggle" type="checkbox" />
+            </label>
+
+            <div class="data-row">
+              <span class="data-row-title">Резервная копия данных</span>
+              <div class="data-row-buttons">
+                <button id="exportDataBtn" class="btn secondary">⤓ Экспорт</button>
+                <label class="btn secondary">
+                  ⤒ Импорт
+                  <input id="importDataInput" type="file" accept="application/json,.json" hidden />
+                </label>
+              </div>
+              <p id="dataMsg" class="saved-msg"></p>
+            </div>
+          </div>
+
+          <div id="settingsAppearanceView" class="settings-view hidden-view">
+            <button id="appearanceBackBtn" class="settings-sub-back" type="button">← Назад</button>
+            <h3 class="settings-sub-title">Оформление</h3>
+            <label class="toggle-row">
+              <span>Тёмная тема</span>
+              <input id="themeModeToggle" type="checkbox" />
+            </label>
+            <div class="stories-settings-card">
+              <div class="stories-settings-title">Темы Telegram-стиля</div>
+              <div class="theme-presets-grid">
+                <button class="theme-preset-btn" data-theme-preset="telegram" type="button">Telegram</button>
+                <button class="theme-preset-btn" data-theme-preset="midnight" type="button">Midnight</button>
+                <button class="theme-preset-btn" data-theme-preset="sunset" type="button">Sunset</button>
+                <button class="theme-preset-btn" data-theme-preset="mint" type="button">Mint</button>
+              </div>
+            </div>
+            <div class="stories-settings-card">
+              <div class="stories-settings-title">Стиль пузырей</div>
+              <div class="theme-presets-grid">
+                <button class="bubble-style-btn" data-bubble-style="soft" type="button">Мягкие</button>
+                <button class="bubble-style-btn" data-bubble-style="classic" type="button">Классика</button>
+                <button class="bubble-style-btn" data-bubble-style="compact" type="button">Компакт</button>
+              </div>
+            </div>
+            <div class="stories-settings-card">
+              <div class="stories-settings-title">Фон чата</div>
+              <div class="theme-presets-grid">
+                <button class="chat-bg-btn" data-chat-bg="default" type="button"><span class="swatch"></span><span>Стандарт</span></button>
+                <button class="chat-bg-btn" data-chat-bg="blur" type="button"><span class="swatch"></span><span>Размытый</span></button>
+                <button class="chat-bg-btn" data-chat-bg="mesh" type="button"><span class="swatch"></span><span>Сетка</span></button>
+                <button class="chat-bg-btn" data-chat-bg="paper" type="button"><span class="swatch"></span><span>Бумага</span></button>
+              </div>
+              <div class="data-row-buttons">
+                <label class="btn secondary">
+                  🖼 Свой фон
+                  <input id="chatBgUploadInput" type="file" accept="image/*" hidden />
+                </label>
+                <button id="chatBgResetBtn" class="btn secondary" type="button">Сбросить</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="settingsLanguageView" class="settings-view hidden-view">
+            <button id="languageBackBtn" class="settings-sub-back" type="button">← Назад</button>
+            <h3 class="settings-sub-title">Язык</h3>
+            <label class="toggle-row">
+              <span>Русский</span>
+              <input id="langRuToggle" type="checkbox" />
+            </label>
+            <label class="toggle-row">
+              <span>English (US)</span>
+              <input id="langEnToggle" type="checkbox" />
+            </label>
+          </div>
+
+          <div id="settingsProfileView" class="settings-view hidden-view">
+            <button id="profileBackBtn" class="settings-sub-back" type="button">← Назад</button>
+            <h3 class="settings-sub-title">Мой профиль</h3>
+            <div class="settings-avatar">
+              <img id="settingsAvatar" class="avatar large" alt="avatar" />
+              <label class="btn secondary">
+                Загрузить аватар
+                <input id="avatarInput" type="file" accept="image/*" hidden />
+              </label>
+            </div>
+            <label class="field">
+              <span>Имя пользователя (ID)</span>
+              <input id="nickInput" type="text" placeholder="Введите имя пользователя" maxlength="32" />
+              <small id="profileIdValue" class="profile-id-hint">@guest</small>
+            </label>
+            <label class="field">
+              <span>О себе</span>
+              <input id="aboutInput" type="text" placeholder="Коротко о себе" maxlength="120" />
+            </label>
+            <label class="field">
+              <span>Пароль аккаунта</span>
+              <input id="profilePasswordInput" type="password" placeholder="Оставьте пустым, чтобы убрать пароль" maxlength="64" />
+            </label>
+            <button id="saveProfileBtn" class="btn primary">Сохранить</button>
+            <button id="logoutBtn" class="btn secondary" type="button">Выйти из аккаунта</button>
+            <p id="profileSaved" class="saved-msg"></p>
+          </div>
+
+          <div id="settingsStoriesView" class="settings-view hidden-view">
+            <button id="storiesBackBtn" class="settings-sub-back" type="button">← Назад</button>
+            <h3 class="settings-sub-title">Мои истории</h3>
+
+            <div class="stories-settings-card">
+              <div class="stories-settings-title">Кто видит мои истории</div>
+              <label class="story-option">
+                <input type="radio" name="storiesAudience" value="everyone" />
+                <span>Все</span>
+              </label>
+              <label class="story-option">
+                <input type="radio" name="storiesAudience" value="contacts" />
+                <span>Мои контакты</span>
+              </label>
+              <label class="story-option">
+                <input type="radio" name="storiesAudience" value="close_friends" />
+                <span>Близкие друзья</span>
+                <button id="editCloseFriendsBtn" class="story-option-edit" type="button">Изменить</button>
+              </label>
+              <label class="story-option">
+                <input type="radio" name="storiesAudience" value="selected" />
+                <span>Выбранные пользователи</span>
+                <button id="editSelectedUsersBtn" class="story-option-edit" type="button">Изменить</button>
+              </label>
+            </div>
+
+            <label class="toggle-row">
+              <span>Разрешить снимки экрана</span>
+              <input id="storiesAllowScreenshotsToggle" type="checkbox" />
+            </label>
+            <label class="toggle-row">
+              <span>Публиковать в профиле</span>
+              <input id="storiesPublishProfileToggle" type="checkbox" />
+            </label>
+
+            <div class="stories-settings-card">
+              <div class="stories-settings-title">Мои опубликованные истории</div>
+              <button id="openAllMyStoriesBtn" class="btn secondary" type="button">Смотреть все</button>
+              <ul id="myStoriesList" class="my-stories-list"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="storiesAudienceModal" class="overlay hidden">
+      <div class="modal">
+        <h3 id="storiesAudienceModalTitle">Выбор аудитории</h3>
+        <input id="storiesAudienceSearch" class="search-input" type="text" placeholder="Поиск контактов..." autocomplete="off" />
+        <ul id="storiesAudienceList" class="forward-list"></ul>
+        <div class="modal-actions">
+          <button id="cancelStoriesAudienceBtn" class="btn secondary" type="button">Отмена</button>
+          <button id="saveStoriesAudienceBtn" class="btn primary" type="button">Сохранить</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="authOverlay" class="overlay hidden">
+    <div class="modal auth-modal">
+      <h3 id="authTitle">Добро пожаловать</h3>
+      <p id="authSubtitle" class="auth-subtitle">Введите имя, чтобы продолжить</p>
+      <label class="field">
+        <span>Ваше имя</span>
+        <input id="authNickInput" type="text" placeholder="Например, Иван" maxlength="32" />
+      </label>
+      <label id="authPasswordField" class="field hidden-view">
+        <span>Пароль</span>
+        <input id="authPasswordInput" type="password" placeholder="Введите пароль" maxlength="64" />
+      </label>
+      <p id="authError" class="saved-msg auth-error"></p>
+      <div class="modal-actions">
+        <button id="authContinueBtn" class="btn primary" type="button">Продолжить</button>
+      </div>
+    </div>
+  </div>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="contacts">
+        <span class="ico">👥</span><span>Контакты</span>
+      </button>
+      <button class="tab-btn" data-tab="chats">
+        <span class="ico">💬</span><span>Чаты</span>
+        <span id="chatsTabBadge" class="tab-badge hidden">0</span>
+      </button>
+      <button class="tab-btn" data-tab="settings">
+        <span class="ico">⚙️</span><span>Настройки</span>
+      </button>
+    </nav>
+  </div>
+<div id="typingIndicator" class="typing-indicator hidden">
+  <span id="typingName"></span> печатает
+  <span class="dots">
+    <span></span><span></span><span></span>
+  </span>
+</div>
+  <!-- Окно чата -->
+  <div id="chatOverlay" class="overlay hidden">
+    <div class="chat">
+      <header class="chat-head">
+        <button id="closeChatBtn" class="icon-btn" title="Закрыть">✕</button>
+        <img id="chatAvatar" class="avatar" alt="avatar" />
+        <div class="chat-title">
+          <div id="chatName" class="name"></div>
+          <div class="status">в сети</div>
+        </div>
+        <button id="chatSearchBtn" class="icon-btn" title="Поиск в чате">🔍</button>
+      </header>
+      <div id="chatSearchBar" class="chat-search hidden">
+        <input id="chatSearchInput" type="text" placeholder="Поиск в чате..." autocomplete="off" />
+        <span id="chatSearchCount" class="chat-search-count">0/0</span>
+        <button type="button" id="chatSearchPrev" class="icon-btn" title="Предыдущее">⌃</button>
+        <button type="button" id="chatSearchNext" class="icon-btn" title="Следующее">⌄</button>
+        <button type="button" id="chatSearchClose" class="icon-btn" title="Закрыть поиск">✕</button>
+      </div>
+      <div id="pinnedBar" class="pinned-bar hidden">
+        <span class="pinned-icon">📌</span>
+        <div class="pinned-body">
+          <div class="pinned-title">Закреплённое сообщение</div>
+          <div class="pinned-text"></div>
+        </div>
+        <button type="button" id="unpinBtn" class="icon-btn" title="Открепить">✕</button>
+      </div>
+      <div id="messagesBox" class="messages"></div>
+      <button id="scrollDownBtn" class="scroll-down hidden" type="button" title="К новым сообщениям">
+        <span class="arrow">↓</span>
+        <span id="scrollDownBadge" class="scroll-down-badge hidden">0</span>
+      </button>
+      <div id="emojiPicker" class="emoji-picker hidden"></div>
+      <div id="recordingBar" class="recording-bar hidden">
+        <span class="rec-dot"></span>
+        <span class="rec-label">Запись...</span>
+        <span id="recordingTimer" class="rec-timer">0:00</span>
+        <button type="button" id="recordCancelBtn" class="icon-btn" title="Отмена">✕</button>
+        <button type="button" id="recordStopBtn" class="btn primary">Отправить ▶</button>
+      </div>
+      <div id="replyBar" class="reply-bar hidden">
+        <div class="reply-bar-inner">
+          <span class="reply-bar-icon">↪</span>
+          <div class="reply-bar-body">
+            <div class="reply-bar-name"></div>
+            <div class="reply-bar-text"></div>
+          </div>
+          <button type="button" id="cancelReplyBtn" class="icon-btn" title="Отменить ответ">✕</button>
+        </div>
+      </div>
+      <div id="imagePreview" class="image-preview hidden">
+        <img id="imagePreviewImg" alt="preview" />
+        <button type="button" id="cancelImageBtn" class="icon-btn" title="Убрать">✕</button>
+      </div>
+      <form id="messageForm" class="composer">
+        <button type="button" id="emojiBtn" class="icon-btn emoji-btn" title="Смайлики">😊</button>
+        <label class="icon-btn attach-btn" title="Прикрепить фото">
+          📎
+          <input id="attachInput" type="file" accept="image/*" hidden />
+        </label>
+        <button type="button" id="micBtn" class="icon-btn mic-btn" title="Голосовое сообщение">🎤</button>
+        <input id="messageInput" type="text" placeholder="Сообщение..." autocomplete="off" />
+        <button type="submit" class="btn primary send">Отправить</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модал добавления контакта -->
+  <div id="contactModal" class="overlay hidden">
+    <div class="modal">
+      <h3>Новый контакт</h3>
+      <label class="field">
+        <span>Имя</span>
+        <input id="newContactName" type="text" maxlength="32" />
+      </label>
+      <label class="field">
+        <span>Аватар (необязательно)</span>
+        <input id="newContactAvatar" type="file" accept="image/*" />
+      </label>
+      <div class="modal-actions">
+        <button id="cancelContactBtn" class="btn secondary">Отмена</button>
+        <button id="createContactBtn" class="btn primary">Создать</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Просмотр истории -->
+  <div id="storyViewer" class="story-viewer hidden">
+    <div class="story-progress" id="storyProgress"></div>
+    <div class="story-head">
+      <img id="storyAvatar" class="avatar" alt="" />
+      <span id="storyAuthor" class="story-author"></span>
+      <span id="storyTime" class="story-time"></span>
+      <button type="button" id="storyDeleteBtn" class="icon-btn story-delete hidden" title="Удалить">🗑</button>
+      <button type="button" id="storyCloseBtn" class="icon-btn" title="Закрыть">✕</button>
+    </div>
+    <div class="story-content">
+      <img id="storyImage" class="story-image hidden" alt="" />
+      <div id="storyText" class="story-text"></div>
+    </div>
+    <button type="button" id="storyPrev" class="story-nav prev" title="Назад"></button>
+    <button type="button" id="storyNext" class="story-nav next" title="Далее"></button>
+  </div>
+
+  <!-- Создание истории -->
+  <div id="storyComposer" class="overlay hidden">
+    <div class="modal">
+      <h3>Опубликовать историю</h3>
+      <textarea id="storyComposerText" class="story-textarea" placeholder="Что нового? (можно без текста, только фото)" maxlength="280"></textarea>
+      <label class="btn secondary story-pick">
+        🖼 Выбрать фото
+        <input id="storyImageInput" type="file" accept="image/*" hidden />
+      </label>
+      <img id="storyComposerPreview" class="story-composer-preview hidden" alt="" />
+      <p class="story-hint">История будет видна 24 часа</p>
+      <div class="modal-actions">
+        <button id="storyCancelBtn" class="btn secondary">Отмена</button>
+        <button id="storyPublishBtn" class="btn primary">Опубликовать</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Профиль контакта -->
+  <div id="profileModal" class="overlay hidden">
+    <div class="modal contact-profile">
+      <button type="button" id="profileCloseBtn" class="icon-btn profile-close" title="Закрыть">✕</button>
+      <img id="profileAvatar" class="avatar profile-avatar" alt="" />
+      <div id="profileName" class="profile-name"></div>
+      <div id="profileStatus" class="profile-status"></div>
+      <div class="profile-stats">
+        <div class="stat"><span class="stat-num" id="profileMsgCount">0</span><span class="stat-label">сообщений</span></div>
+        <div class="stat"><span class="stat-num" id="profilePhotoCount">0</span><span class="stat-label">фото</span></div>
+        <div class="stat"><span class="stat-num" id="profileAudioCount">0</span><span class="stat-label">голосовых</span></div>
+      </div>
+      <div class="profile-actions">
+        <button id="profilePinBtn" class="btn secondary">📌 Закрепить чат</button>
+        <button id="profileMuteBtn" class="btn secondary">🔔 Без звука</button>
+        <button id="profileArchiveBtn" class="btn secondary">📦 В архив</button>
+        <button id="profileClearBtn" class="btn secondary danger">🧹 Очистить историю</button>
+        <button id="profileDeleteBtn" class="btn secondary danger">🗑 Удалить контакт</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модал пересылки -->
+  <div id="forwardModal" class="overlay hidden">
+    <div class="modal">
+      <h3>Переслать сообщение</h3>
+      <p class="forward-preview" id="forwardPreview"></p>
+      <input id="forwardSearch" class="search-input" type="text" placeholder="🔍 Поиск контакта..." autocomplete="off" />
+      <ul id="forwardList" class="forward-list"></ul>
+      <div class="modal-actions">
+        <button id="cancelForwardBtn" class="btn secondary">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastBox" class="toast-box"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
